@@ -1,4 +1,4 @@
-package org.example.springwebcapstoneproject.service;
+package org.example.springwebcapstoneproject.service.implementation;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +10,7 @@ import org.example.springwebcapstoneproject.exception.UserNotFoundException;
 import org.example.springwebcapstoneproject.exception.WrongPasswordException;
 import org.example.springwebcapstoneproject.mapper.UserMapper;
 import org.example.springwebcapstoneproject.repository.UserRepository;
+import org.example.springwebcapstoneproject.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

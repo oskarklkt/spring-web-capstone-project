@@ -7,7 +7,7 @@ import org.example.springwebcapstoneproject.dto.register.RegisterUserDto;
 import org.example.springwebcapstoneproject.exception.UserAlreadyExistsException;
 import org.example.springwebcapstoneproject.exception.UserNotFoundException;
 import org.example.springwebcapstoneproject.exception.WrongPasswordException;
-import org.example.springwebcapstoneproject.service.UserServiceImpl;
+import org.example.springwebcapstoneproject.service.implementation.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
