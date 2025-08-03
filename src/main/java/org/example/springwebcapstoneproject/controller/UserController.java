@@ -1,0 +1,24 @@
+package org.example.springwebcapstoneproject.controller;
+
+import lombok.RequiredArgsConstructor;
+import org.example.springwebcapstoneproject.dto.RegisterUserDto;
+import org.example.springwebcapstoneproject.service.UserService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api")
+public class UserController {
+
+    private final UserService userService;
+
+    @PostMapping("/v1/register")
+    public ResponseEntity<Void> register(@RequestBody RegisterUserDto registerUserDto) {
+        userService.register(registerUserDto);
+        return ResponseEntity.ok().build();
+    }
+}
