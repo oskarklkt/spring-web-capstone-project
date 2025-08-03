@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.springwebcapstoneproject.dto.login.LoginRequestDto;
 import org.example.springwebcapstoneproject.dto.login.LoginResponseDto;
 import org.example.springwebcapstoneproject.dto.register.RegisterUserDto;
-import org.example.springwebcapstoneproject.service.UserServiceImpl;
+import org.example.springwebcapstoneproject.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class UserController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping("/v1/register")
     public ResponseEntity<Void> register(@RequestBody RegisterUserDto registerUserDto) {
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/v1/login")
-    public ResponseEntity<LoginResponseDto> register(@RequestBody LoginRequestDto loginRequestDto,
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto,
                                                      HttpServletRequest request) {
         String sessionId = userService.login(loginRequestDto, request);
         return ResponseEntity.ok(new LoginResponseDto(sessionId));
