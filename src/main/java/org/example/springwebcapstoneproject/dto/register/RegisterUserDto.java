@@ -1,4 +1,4 @@
-package org.example.springwebcapstoneproject.dto;
+package org.example.springwebcapstoneproject.dto.register;
 
 import lombok.*;
 
