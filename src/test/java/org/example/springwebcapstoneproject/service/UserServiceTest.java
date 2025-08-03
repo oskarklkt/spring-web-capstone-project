@@ -1,8 +1,13 @@
 package org.example.springwebcapstoneproject.service;
 
-import org.example.springwebcapstoneproject.dto.RegisterUserDto;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.example.springwebcapstoneproject.dto.login.LoginRequestDto;
+import org.example.springwebcapstoneproject.dto.register.RegisterUserDto;
 import org.example.springwebcapstoneproject.entity.User;
 import org.example.springwebcapstoneproject.exception.UserAlreadyExistsException;
+import org.example.springwebcapstoneproject.exception.UserNotFoundException;
+import org.example.springwebcapstoneproject.exception.WrongPasswordException;
 import org.example.springwebcapstoneproject.mapper.UserMapper;
 import org.example.springwebcapstoneproject.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +30,7 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private UserService userService;
+    private UserServiceImpl userService;
 
     @BeforeEach
     void setUp() {
@@ -61,4 +66,60 @@ class UserServiceTest {
         assertThrows(UserAlreadyExistsException.class, () -> userService.register(dto));
         verify(userRepository, never()).save(any());
     }
+
+    @Test
+    void shouldLoginSuccessfullyAndReturnSessionId() {
+        // given
+        String email = "user@example.com";
+        String rawPassword = "password123";
+        String hashedPassword = "hashedPassword";
+
+        User user = new User(1L, email, hashedPassword);
+        LoginRequestDto loginDto = new LoginRequestDto(email, rawPassword);
+
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpSession session = mock(HttpSession.class);
+
+        when(userRepository.findUserByEmail(email)).thenReturn(java.util.Optional.of(user));
+        when(passwordEncoder.matches(rawPassword, hashedPassword)).thenReturn(true);
+        when(request.getSession()).thenReturn(session);
+        when(session.getId()).thenReturn("mockSessionId");
+
+        // when
+        String sessionId = userService.login(loginDto, request);
+
+        // then
+        assertEquals("mockSessionId", sessionId);
+        verify(session).setAttribute("userId", user.getId());
+    }
+
+    @Test
+    void shouldThrowWhenUserNotFoundDuringLogin() {
+        // given
+        String email = "notfound@example.com";
+        LoginRequestDto loginDto = new LoginRequestDto(email, "any");
+
+        when(userRepository.findUserByEmail(email)).thenReturn(java.util.Optional.empty());
+
+        // then
+        assertThrows(UserNotFoundException.class, () -> userService.login(loginDto, mock(HttpServletRequest.class)));
+    }
+
+    @Test
+    void shouldThrowWhenPasswordIsIncorrect() {
+        // given
+        String email = "user@example.com";
+        String wrongPassword = "wrong";
+        String hashedPassword = "correctHash";
+
+        User user = new User(1L, email, hashedPassword);
+        LoginRequestDto loginDto = new LoginRequestDto(email, wrongPassword);
+
+        when(userRepository.findUserByEmail(email)).thenReturn(java.util.Optional.of(user));
+        when(passwordEncoder.matches(wrongPassword, hashedPassword)).thenReturn(false);
+
+        // then
+        assertThrows(WrongPasswordException.class, () -> userService.login(loginDto, mock(HttpServletRequest.class)));
+    }
 }
+
