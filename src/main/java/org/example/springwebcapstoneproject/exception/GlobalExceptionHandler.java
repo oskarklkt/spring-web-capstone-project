@@ -29,5 +29,27 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleWrongPassword(WrongPasswordException ex) {
         Map<String, String> error = new HashMap<>();
         error.put("error", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);    }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    @ExceptionHandler(ProductNotExistsException.class)
+    public ResponseEntity<Map<String, String>> handleProductNotFound(ProductNotExistsException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(NotEnoughProductsAvailableException.class)
+    public ResponseEntity<Map<String, String>> handleNotEnoughAvailability(NotEnoughProductsAvailableException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(UserNotLoggedInException.class)
+    public ResponseEntity<Map<String, String>> handleUnauthorized(UserNotLoggedInException ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
 }
