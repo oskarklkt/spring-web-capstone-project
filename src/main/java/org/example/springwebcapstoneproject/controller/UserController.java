@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v1/auth")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/v1/register")
+    @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody RegisterUserDto registerUserDto) {
         userService.register(registerUserDto);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/v1/login")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto,
                                                      HttpServletRequest request) {
         String sessionId = userService.login(loginRequestDto, request);

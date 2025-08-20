@@ -1,4 +1,4 @@
-package org.example.springwebcapstoneproject.entity;
+package org.example.springwebcapstoneproject.model;
 
 
 import lombok.Getter;

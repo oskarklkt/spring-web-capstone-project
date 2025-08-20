@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.springwebcapstoneproject.dto.cart.AddCartItemRequestDto;
 import org.example.springwebcapstoneproject.dto.cart.CartDto;
 import org.example.springwebcapstoneproject.dto.cart.CartItemDto;
-import org.example.springwebcapstoneproject.entity.Cart;
+import org.example.springwebcapstoneproject.model.Cart;
 import org.example.springwebcapstoneproject.entity.Product;
 import org.example.springwebcapstoneproject.exception.NotEnoughProductsAvailableException;
 import org.example.springwebcapstoneproject.exception.ProductNotExistsException;

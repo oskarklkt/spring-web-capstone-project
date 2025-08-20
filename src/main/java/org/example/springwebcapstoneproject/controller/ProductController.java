@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/v1/product")
+    @GetMapping
     private ResponseEntity<List<ProductDto>> getAll() {
         return ResponseEntity.ok(productService.getAll());
     }
